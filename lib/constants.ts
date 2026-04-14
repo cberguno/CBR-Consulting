@@ -2,8 +2,8 @@ export const SITE = {
   name: "CBR Consulting",
   location: "Dallas, TX — Serving the DFW Metro Area",
   tagline: "Simple AI tools that replace expensive software",
-  ctaHref: "/tools/subscription-audit",
-  ctaLabel: "Free AI Audit",
+  ctaHref: "/pricing",
+  ctaLabel: "AI Pricing Tool",
   year: 2026,
 } as const;
 

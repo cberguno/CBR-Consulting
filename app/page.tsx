@@ -218,8 +218,8 @@ export default function Home() {
             className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <Button asChild size="lg" className="h-12 px-6 text-base">
-              <Link href="/tools/subscription-audit">
-                Free AI Audit
+              <Link href="/pricing">
+                AI Pricing Tool
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -616,8 +616,8 @@ export default function Home() {
               size="lg"
               className="h-14 px-8 text-base md:text-lg"
             >
-              <Link href="/tools/subscription-audit">
-                Start your free audit
+              <Link href="/pricing">
+                Try the AI pricing tool
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
