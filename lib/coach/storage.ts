@@ -1,4 +1,5 @@
 import { SAMPLE_STATE } from "./sample-data";
+import { teiJournalState } from "./tei-berguno-2026";
 import type { ChatMessage, CoachState } from "./types";
 
 export const STORAGE_KEY = "cbr-classroom-coach-v1";
@@ -11,7 +12,7 @@ export const EMPTY_STATE: CoachState = {
       id: "welcome",
       role: "coach",
       createdAt: new Date().toISOString(),
-      body: "Hi. I am your classroom coach for 4th grade. After a lesson or a walkthrough, tell me what you noticed in plain language. I will help you save it, spot patterns, and pick one small thing to practice next. Notes stay in this browser — first names or initials only.",
+      body: "Hi. I am your classroom coach for 4th grade. You can load Tellesha Minter’s 2026–27 TEI spot and start from those four next steps, or tell me what you noticed after a lesson in plain language. Notes stay in this browser — first names or initials only.",
     },
   ],
   pinnedFocus: null,
@@ -73,9 +74,21 @@ export function sampleState(): CoachState {
     id: newId("msg"),
     role: "coach",
     createdAt: nowIso(),
-    body: "I loaded a sample first week so you can see how observations, goals, and coaching talk to each other. Delete anything that is not yours, or clear the journal and start empty.",
+    body: "I loaded a sample first week so you can see how observations, goals, and coaching talk to each other. Delete anything that is not yours, or load the official TEI spot instead.",
   };
   clone.messages = [...clone.messages, welcome];
+  return clone;
+}
+
+export function officialTeiState(): CoachState {
+  const clone = structuredClone(teiJournalState());
+  const note: ChatMessage = {
+    id: newId("msg"),
+    role: "coach",
+    createdAt: nowIso(),
+    body: "Official TEI spot is in the journal. After your next Eureka block, log whether the sprint stayed in its box and how many pairs actually talked. That is the evidence this cycle needs.",
+  };
+  clone.messages = [...clone.messages, note];
   return clone;
 }
 

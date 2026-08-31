@@ -188,6 +188,10 @@ const KEYWORDS: Array<{ area: FocusArea; words: string[] }> = [
       "multiplication",
       "strategy",
       "problem",
+      "eureka",
+      "sprint",
+      "rdw",
+      "estimation",
     ],
   },
   {
@@ -196,7 +200,16 @@ const KEYWORDS: Array<{ area: FocusArea; words: string[] }> = [
   },
   {
     area: "engagement",
-    words: ["bored", "engagement", "participation", "checked out", "off task"],
+    words: [
+      "bored",
+      "engagement",
+      "participation",
+      "checked out",
+      "off task",
+      "partner",
+      "volunteer",
+      "unison",
+    ],
   },
   {
     area: "sel",
@@ -286,10 +299,32 @@ export function analyzeJournal(state: CoachState): CoachInsight[] {
     insights.push({
       id: "empty",
       kind: "nudge",
-      title: "Start with one 90-second spot",
-      body: "You do not need a formal observation cycle. After one lesson today, jot what you noticed, one glow, and one grow. I will turn that into a practice thread.",
+      title: "Start from the official TEI spot",
+      body: "Load Tellesha Minter’s 2026–27 walkthrough to pin the four polish steps, or log a 90-second note after your next Eureka block.",
     });
     return insights;
+  }
+
+  const tei = recent.find((o) => o.tei);
+  if (tei?.tei) {
+    const progressing = tei.tei.indicators
+      .filter((i) => i.rating === "progressing")
+      .map((i) => `${i.code} ${i.title}`)
+      .join(", ");
+    insights.push({
+      id: "tei-cycle",
+      kind: "nudge",
+      title: "This cycle already has a polish list",
+      body: `${tei.tei.reviewer} marked ${progressing} as Progressing. Practice one polish a week: Eureka sprint fidelity, assigned Partner A/B, voices beyond the volunteers, restating checklist.`,
+      relatedFocus: "engagement",
+    });
+    insights.push({
+      id: "tei-strength",
+      kind: "strength",
+      title: "Protect the two Proficients",
+      body: "Procedures (timer, materials, restroom) and climate (warm language, think time, RDW) are already working. Do not rebuild those. Add individual accountability on top of them.",
+      relatedFocus: "community",
+    });
   }
 
   const focusCounts = countBy(recent.map((o) => o.focusArea));

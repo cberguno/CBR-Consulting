@@ -54,6 +54,35 @@ export const GOAL_STATUSES = [
 ] as const;
 export type GoalStatus = (typeof GOAL_STATUSES)[number];
 
+export const TEI_RATINGS = ["proficient", "progressing", "no-rating"] as const;
+export type TeiRating = (typeof TEI_RATINGS)[number];
+
+export type TeiIndicatorCode =
+  | "2.1"
+  | "2.2"
+  | "2.3"
+  | "2.4"
+  | "3.1"
+  | "3.2"
+  | "3.3";
+
+export type TeiIndicator = {
+  code: TeiIndicatorCode;
+  title: string;
+  rating: TeiRating;
+  comment: string;
+};
+
+export type TeiReview = {
+  cycle: string;
+  reviewer: string;
+  teacher: string;
+  praise: string[];
+  probes: string[];
+  polish: string[];
+  indicators: TeiIndicator[];
+};
+
 export type Observation = {
   id: string;
   createdAt: string;
@@ -69,6 +98,7 @@ export type Observation = {
   nextStep: string;
   energy: 1 | 2 | 3 | 4 | 5;
   linkedGoalIds: string[];
+  tei?: TeiReview;
 };
 
 export type ImprovementGoal = {

@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState, type ReactNode } from "react";
 import {
   BookOpen,
+  ClipboardCheck,
   ClipboardList,
   Download,
   MessageCircle,
@@ -32,9 +33,15 @@ import {
   SOURCE_LABELS,
   STARTER_GOALS,
   SUBJECT_LABELS,
+  TEI_RATING_META,
   TIME_LABELS,
 } from "@/lib/coach/constants";
-import type { CoachState, ImprovementGoal, Observation } from "@/lib/coach/types";
+import type {
+  CoachState,
+  ImprovementGoal,
+  Observation,
+  TeiReview,
+} from "@/lib/coach/types";
 import {
   defaultGoalDraft,
   defaultObservationDraft,
@@ -228,6 +235,13 @@ export function CoachApp() {
                   <CardTitle className="text-xl">Coach read</CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-3">
+                  {store.observations.some((o) => o.tei) && (
+                    <TeiRatingsStrip
+                      review={
+                        store.observations.find((o) => o.tei)?.tei ?? null
+                      }
+                    />
+                  )}
                   {insights.map((insight) => (
                     <div
                       key={insight.id}
@@ -260,14 +274,18 @@ export function CoachApp() {
                   {store.observations.length === 0 ? (
                     <Empty
                       title="No spots yet"
-                      body="Log one after your next lesson, or load a sample first week to see how the journal works."
+                      body="Load Tellesha’s 2026–27 TEI spot to start from the official next steps, or log one after your next lesson."
                       action={
                         <div className="flex flex-wrap gap-2">
-                          <Button onClick={() => openNewObservation()}>
-                            Log a spot
+                          <Button onClick={store.loadTeiSpot}>
+                            <ClipboardCheck className="h-4 w-4" />
+                            Load my TEI spot
                           </Button>
-                          <Button variant="outline" onClick={store.loadSample}>
-                            Load sample week
+                          <Button
+                            variant="outline"
+                            onClick={() => openNewObservation()}
+                          >
+                            Log a spot
                           </Button>
                         </div>
                       }
@@ -427,7 +445,7 @@ export function CoachApp() {
               <CardHeader>
                 <CardTitle className="text-xl">4th grade starters</CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-3 md:grid-cols-3">
+              <CardContent className="grid gap-3 md:grid-cols-2">
                 {STARTER_GOALS.map((starter) => (
                   <button
                     key={starter.title}
@@ -497,6 +515,10 @@ export function CoachApp() {
           >
             <Upload className="h-4 w-4" />
             Import
+          </Button>
+          <Button variant="outline" size="sm" onClick={store.loadTeiSpot}>
+            <ClipboardCheck className="h-4 w-4" />
+            TEI spot
           </Button>
           <Button variant="outline" size="sm" onClick={store.loadSample}>
             <BookOpen className="h-4 w-4" />
@@ -745,6 +767,31 @@ function ObservationCard({
             )}
           </div>
         )}
+        {observation.tei && (
+          <div className="mt-4 grid gap-3">
+            <div className="flex flex-wrap gap-1.5">
+              {observation.tei.indicators.map((ind) => (
+                <Badge
+                  key={ind.code}
+                  variant="outline"
+                  className={TEI_RATING_META[ind.rating].tint}
+                >
+                  {ind.code} {TEI_RATING_META[ind.rating].label}
+                </Badge>
+              ))}
+            </div>
+            <div className="grid gap-2 text-sm">
+              <p>
+                <span className="font-semibold">Praise. </span>
+                {observation.tei.praise.join(" ")}
+              </p>
+              <p>
+                <span className="font-semibold">Probe. </span>
+                {observation.tei.probes[0]}
+              </p>
+            </div>
+          </div>
+        )}
         {observation.nextStep && (
           <p className="mt-3 text-sm">
             <span className="font-semibold">Next: </span>
@@ -836,6 +883,28 @@ function GoalCard({
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+function TeiRatingsStrip({ review }: { review: TeiReview | null }) {
+  if (!review) return null;
+  return (
+    <div className="rounded-lg border border-border bg-white p-4">
+      <div className="text-xs font-semibold uppercase tracking-wider text-brand-orange">
+        {review.cycle} TEI · {review.reviewer}
+      </div>
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {review.indicators.map((ind) => (
+          <Badge
+            key={ind.code}
+            variant="outline"
+            className={TEI_RATING_META[ind.rating].tint}
+          >
+            {ind.code} {ind.title}: {TEI_RATING_META[ind.rating].label}
+          </Badge>
+        ))}
+      </div>
+    </div>
   );
 }
 

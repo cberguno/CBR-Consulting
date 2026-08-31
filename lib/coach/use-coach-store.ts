@@ -17,6 +17,7 @@ import {
   loadState,
   newId,
   nowIso,
+  officialTeiState,
   sampleState,
   saveState,
   todayDateInput,
@@ -43,6 +44,7 @@ type CoachStore = CoachState & {
   sendTeacherMessage: (text: string) => ChatMessage;
   addCoachMessage: (body: string) => void;
   loadSample: () => void;
+  loadTeiSpot: () => void;
   clearJournal: () => void;
   downloadBackup: () => void;
   importBackup: (state: CoachState) => void;
@@ -213,6 +215,10 @@ export function CoachProvider({ children }: { children: ReactNode }) {
     setState(sampleState());
   }, []);
 
+  const loadTeiSpot = useCallback(() => {
+    setState(officialTeiState());
+  }, []);
+
   const clearJournal = useCallback(() => {
     setState(structuredClone(EMPTY_STATE));
   }, []);
@@ -239,6 +245,7 @@ export function CoachProvider({ children }: { children: ReactNode }) {
       sendTeacherMessage,
       addCoachMessage,
       loadSample,
+      loadTeiSpot,
       clearJournal,
       downloadBackup,
       importBackup,
@@ -256,6 +263,7 @@ export function CoachProvider({ children }: { children: ReactNode }) {
       sendTeacherMessage,
       addCoachMessage,
       loadSample,
+      loadTeiSpot,
       clearJournal,
       downloadBackup,
       importBackup,

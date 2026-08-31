@@ -6,6 +6,8 @@ description: Help the teacher log spot observations and improvement goals
 
 The 4th grade observation journal lives at `/coach`. Notes are stored in the browser (`localStorage` key `cbr-classroom-coach-v1`).
 
+Official 2026–27 TEI spot (Tellesha Minter → Cristian Berguno) can be loaded with **Load my TEI spot**. Cycle polish: Eureka sprint fidelity, assigned Partner A/B, voices beyond volunteers, restating checklist. Protect Proficient ratings on 3.1 Procedures and 3.3 Climate.
+
 When the teacher describes a classroom moment in chat:
 
 1. Help them name **one** focus (management, questioning, literacy, math, feedback, etc.).

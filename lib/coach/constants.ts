@@ -4,6 +4,7 @@ import type {
   Grouping,
   ObservationSource,
   Subject,
+  TeiRating,
   TimeOfDay,
 } from "./types";
 
@@ -129,6 +130,15 @@ export const GOAL_STATUS_META: Record<
   },
 };
 
+export const TEI_RATING_META: Record<
+  TeiRating,
+  { label: string; tint: string }
+> = {
+  proficient: { label: "Proficient", tint: "bg-success/10 text-success" },
+  progressing: { label: "Progressing", tint: "bg-warning/10 text-warning" },
+  "no-rating": { label: "Not rated", tint: "bg-muted text-text-secondary" },
+};
+
 export const STARTER_GOALS: Array<{
   title: string;
   focusArea: FocusArea;
@@ -138,34 +148,43 @@ export const STARTER_GOALS: Array<{
   successLooksLike: string;
 }> = [
   {
-    title: "3-minute after-recess reset",
-    focusArea: "management",
-    why: "Fourth graders come back from recess with big feelings and leftover playground stories. The next lesson dies if the reset takes too long.",
-    currentPractice: "I wait for quiet, then reteach the expectation, then start.",
+    title: "Eureka sprint with fidelity",
+    focusArea: "math",
+    why: "Alignment slips when fluency is not the designed Eureka sprint, and the application problem loses minutes.",
+    currentPractice: "A nearby fluency activity and extra practice minutes.",
     targetPractice:
-      "Same visual timer, same water/bathroom rule, same attention signal every day. Lesson starts when the timer hits 0.",
+      "Sprint exactly as written — directions and time limit — then start the application problem.",
     successLooksLike:
-      "Three school days in a row, instruction starts within 3 minutes of walking in.",
+      "Sprint stays in its box. Application problem gets its designed minutes.",
   },
   {
-    title: "Five-second wait time",
+    title: "Assigned Partner A / Partner B",
+    focusArea: "engagement",
+    why: "A/B structure without assigned roles leaves some groups silent.",
+    currentPractice: "Partners are named, but speaker and listener jobs are loose.",
+    targetPractice:
+      "Assign A/B before the lesson. Teach speaker and listener. Start talk only when both know the job.",
+    successLooksLike: "Every pair has a speaker and a listener during partner talk.",
+  },
+  {
+    title: "Hear more than the volunteers",
     focusArea: "questioning",
-    why: "The first hand is rarely the deepest thinking. Nine- and ten-year-olds need air to retrieve and explain.",
-    currentPractice: "I call on the first ready student so the lesson keeps moving.",
+    why: "Think time is working. Whole-group answers still sit with a few students or a chorus.",
+    currentPractice: "Volunteers or unison responses after think time.",
     targetPractice:
-      "Ask, then silently count to five. Use a talk move: 'Turn and tell your partner first.'",
+      "Sticks, randomizer, or tracker. Individual restates of the question or the operation.",
     successLooksLike:
-      "In a spot observation, at least 3 students who do not usually jump in share an idea.",
+      "Six different students give an individual response in one application block.",
   },
   {
-    title: "Four writing conferences per workshop",
-    focusArea: "feedback",
-    why: "Writing workshop only changes writing if I sit with kids, not just circulate.",
-    currentPractice: "I put out fires and give quick compliments.",
+    title: "Circulate with a restating checklist",
+    focusArea: "checking-understanding",
+    why: "You cannot rate mastery if only volunteers prove they can restate and choose the operation.",
+    currentPractice: "Circulate and listen without a written record.",
     targetPractice:
-      "Clipboard with 4 names. 3-minute conference: notice, name the craft, one next step.",
+      "Progress tracker / Feedback for Learning checklist during partner talk.",
     successLooksLike:
-      "Every student gets a real conference at least once a week.",
+      "Checklist shows restating data, then one reteach or advance move.",
   },
 ];
 
