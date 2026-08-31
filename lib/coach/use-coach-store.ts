@@ -175,7 +175,20 @@ export function CoachProvider({ children }: { children: ReactNode }) {
       };
       update((prev) => {
         const reply = replyToTeacher(text, prev);
-        coach = reply.message;
+        const relatedGoal = prev.goals.find(
+          (g) =>
+            g.status !== "achieved" &&
+            reply.draft?.focusArea &&
+            g.focusArea === reply.draft.focusArea
+        );
+        coach = {
+          ...reply.message,
+          suggestedObservation: {
+            noticed: text.trim(),
+            ...reply.draft,
+            linkedGoalIds: relatedGoal ? [relatedGoal.id] : [],
+          },
+        };
         return { ...prev, messages: [...prev.messages, teacher, coach] };
       });
       return coach;

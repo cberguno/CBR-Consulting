@@ -583,20 +583,16 @@ function CoachChat({
   function send() {
     const trimmed = text.trim();
     if (!trimmed) return;
-    const lower = trimmed.toLowerCase();
-    if (
-      lower.startsWith("save") &&
-      store.messages.at(-1)?.role === "coach"
-    ) {
+    if (trimmed.toLowerCase() === "save") {
       const lastTeacher = [...store.messages]
         .reverse()
         .find((m) => m.role === "teacher");
+      const draft = [...store.messages]
+        .reverse()
+        .find((m) => m.role === "coach" && m.suggestedObservation)
+        ?.suggestedObservation;
       if (lastTeacher) {
-        const reply = store.sendTeacherMessage(
-          "Please treat my last note as ready to save. I will fill glow and grow in the form."
-        );
-        void reply;
-        onSaveDraft({ noticed: lastTeacher.body });
+        onSaveDraft({ noticed: lastTeacher.body, ...draft });
         setText("");
         return;
       }
@@ -611,6 +607,10 @@ function CoachChat({
   const lastTeacher = [...store.messages]
     .reverse()
     .find((m) => m.role === "teacher");
+  const lastCoachDraft = [...store.messages]
+    .reverse()
+    .find((m) => m.role === "coach" && m.suggestedObservation)
+    ?.suggestedObservation;
 
   return (
     <div className="grid gap-6 lg:grid-cols-5">
@@ -651,7 +651,12 @@ function CoachChat({
               {lastTeacher && (
                 <Button
                   variant="outline"
-                  onClick={() => onSaveDraft({ noticed: lastTeacher.body })}
+                  onClick={() =>
+                    onSaveDraft({
+                      noticed: lastTeacher.body,
+                      ...lastCoachDraft,
+                    })
+                  }
                 >
                   Save last note as a spot
                 </Button>
