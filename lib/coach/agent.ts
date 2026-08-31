@@ -235,7 +235,7 @@ function countBy<T extends string>(items: T[]) {
   for (const item of items) {
     map.set(item, (map.get(item) ?? 0) + 1);
   }
-  return [...map.entries()].sort((a, b) => b[1] - a[1]);
+  return Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
 }
 
 function pickStrategy(area: FocusArea, salt = 0): Strategy {

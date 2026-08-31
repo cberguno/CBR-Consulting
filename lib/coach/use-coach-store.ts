@@ -297,3 +297,12 @@ export function defaultGoalDraft(): Omit<ImprovementGoal, "id" | "createdAt"> {
     targetDate: "",
   };
 }
+
+export function withoutMeta<T extends { id: string; createdAt: string }>(
+  item: T
+): Omit<T, "id" | "createdAt"> {
+  const rest = { ...item };
+  delete (rest as Partial<T>).id;
+  delete (rest as Partial<T>).createdAt;
+  return rest;
+}

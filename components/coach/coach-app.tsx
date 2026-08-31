@@ -40,6 +40,7 @@ import {
   defaultObservationDraft,
   useCoachStore,
   useInsights,
+  withoutMeta,
 } from "@/lib/coach/use-coach-store";
 import { GoalForm } from "./goal-form";
 import { ObservationForm } from "./observation-form";
@@ -67,9 +68,8 @@ export function CoachApp() {
   }
 
   function openEditObservation(obs: Observation) {
-    const { id: _id, createdAt: _createdAt, ...rest } = obs;
     setEditingObs(obs.id);
-    setObsDraft(rest);
+    setObsDraft(withoutMeta(obs));
     setObsOpen(true);
   }
 
@@ -91,9 +91,8 @@ export function CoachApp() {
   }
 
   function openEditGoal(goal: ImprovementGoal) {
-    const { id: _id, createdAt: _createdAt, ...rest } = goal;
     setEditingGoal(goal.id);
-    setGoalDraft(rest);
+    setGoalDraft(withoutMeta(goal));
     setGoalOpen(true);
   }
 
